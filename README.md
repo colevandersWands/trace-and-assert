@@ -18,6 +18,7 @@ each entry on the right hand side of the arrow represents an assertion point in 
     * block scope 'let'
     * block scope 'var'
 * [reference types](#reference-types)  
+    * comparing reference types
     * reference vs value
     * no-copy array
     * yes-copy array
@@ -152,9 +153,49 @@ your notes:
 
 ## Reference Types
 
-**Reference vs. Value**  
+
+**comparing reference types**  
 
 [on pytut](https://goo.gl/xX64Cg)  
+[more about this](https://github.com/elewa-academy/reference-vs-value)
+
+the code:
+```js
+{
+  const expected = ;                           
+  
+  const a = [1];
+  const b = [2, 1];
+  const c = [1, 2];
+  
+  const b_0 = b.shift();          console.assert( === b[0], '1: b[0]');
+                                  console.assert( === (a[0] === b[0]), '3: a[0] === b[0]');
+  const a_eq_b = a === b;
+  const c_1 = c.pop();            console.assert( === c[0], '1: c[0]');
+  // compare c & b
+  // compare c & a
+  const d = [b_0, c_1];           console.assert( === d[0], '1: d[0]');
+                                  console.assert( === d[1], '1: d[1]');
+  a.push(b_0);                    console.assert( === a[0], '2: a[0]');
+                                  console.assert( === a[1], '1: a[1]');
+  const a_eq_d = a === d;         console.assert( === a_eq_d, '2: a_eq_d');
+
+  const actual = JSON.stringify(b) === JSON.stringify(c);              
+ 
+  console.assert(actual === expected, 'actual !== expected');
+}
+```
+the values:
+```js
+(no inputs)   -> 
+```
+your notes:  
+
+---
+
+**Reference vs. Value**  
+
+[on pytut](https://goo.gl/Rhktpu)  
 [more about this](https://github.com/elewa-academy/reference-vs-value)
 
 the code:
