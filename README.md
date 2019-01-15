@@ -423,21 +423,23 @@ your notes:
 the code:
 ```js
 {
-  const expected = ;                const log = [{expected}];
+  const expected = ;               
                      
   const a = ;
   const b = ;
   const c = ;
-  const result = null;              log.push({a,b,c,result});
+  const result = null;             
   
-  const condition_1 = b && a;       log.push({condition_1: !!condition_1});
-  const condition_2 = a || c;       log.push({condition_2: !!condition_2});
-  if (condition_1) {
-    result = condition_1;           log.push({result});
-  } else if (condtion_2) {
-    result = condition_2;           log.push({result});
+  const cond_1 = b && a;          console.assert( === cond_1, '1: cond_1');
+                                  console.assert( === !!cond_1, '2: cond_1 truthyness');
+  const cond_2 = a || c;          console.assert( === cond_2, '3: cond_2');
+                                  console.assert( === !!cond_2, '4: cond_2 truthyness');
+  if (cond_1) {               
+    result = cond_1;              console.assert( === result, '5: if result');
+  } else if (cond_2) {
+    result = cond_2;              console.assert( === result, '5: else if result');
   } else {
-    result = 'else';                log.push({result});
+    result = cond_1 + cond_2;     console.assert( === result, '5: else result');
   };
 
   const actual = result;
@@ -447,12 +449,12 @@ the code:
 ```
 the values:
 ```js
-a:true, b:'', c:1      --> ?
-a:false, b:'', c:0      --> ?
-a:true, b:'', c:0      --> ?
-a:false, b:'', c:1      --> ?
-a:false, b:' ', c:1      --> ?
-a:true, b:' ', c:1      --> ?
+a:true, b:'', c:1      -->  1:?, 2:?, 3:?, 4:?, 5:?
+a:false, b:'', c:0     -->  1:?, 2:?, 3:?, 4:?, 5:?
+a:true, b:'', c:0      -->  1:?, 2:?, 3:?, 4:?, 5:?
+a:false, b:'', c:1     -->  1:?, 2:?, 3:?, 4:?, 5:?
+a:false, b:' ', c:1    -->  1:?, 2:?, 3:?, 4:?, 5:?
+a:true, b:' ', c:1     -->  1:?, 2:?, 3:?, 4:?, 5:?
 ```
 your notes:  
 
@@ -467,23 +469,23 @@ your notes:
 the code:
 ```js
 {
-  const expected = ;                const log = [{expected}];
+  const expected = ;             
                      
   const a = ;
   const b = ;
-  const result = null;              log.push({a,b,c,result});
+  const result = null;           
   
   if (a) {
-    if (b) {
-      result = 'w: ' + a + b;       log.push({result});
-    } else {
-      result = 'x: ' + a + b;       log.push({result});
+    if (b) {                      console.assert( === a && b, '1: a && b');
+      result = 'w: ' + a + b;     console.assert( === result, '2: if if result');
+    } else {                      console.assert( === a && !b, '1: a && !b');
+      result = 'x: ' + a + b;     console.assert( === result, '2: if else result');
     };
   } else {
-    if (b) {
-      result = 'y: ' + a + b;       log.push({result});
-    } else {
-      result = 'z: ' + a + b;       log.push({result});
+    if (b) {                      console.assert( === !a && b, '1: !a && b');
+      result = 'y: ' + a + b;     console.assert( === result, '2: else if result');
+    } else {                      console.assert( === !a && !b, '1: !a && !b');
+      result = 'z: ' + a + b;     console.assert( === result, '2: else else result');
     };
   };
 
@@ -494,10 +496,10 @@ the code:
 ```
 the values:
 ```js
-a:0, b:0    -->  ?
-a:0, b:1    -->  ?
-a:1, b:0    -->  ?
-a:1, b:1    -->  ?
+a:0, b:0    -->  1:?, 2:?
+a:0, b:1    -->  1:?, 2:?
+a:1, b:0    -->  1:?, 2:?
+a:1, b:1    -->  1:?, 2:?
 ```
 your notes:  
 
