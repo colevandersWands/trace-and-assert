@@ -18,6 +18,7 @@ each entry on the right hand side of the arrow represents an assertion point in 
     * block scope 'let'
     * block scope 'var'
 * [reference types](#reference-types)  
+    * reference vs value
     * no-copy array
     * yes-copy array
     * dots vs brackets
@@ -151,6 +152,44 @@ your notes:
 
 ## Reference Types
 
+**Reference vs. Value**  
+
+[on pytut](https://goo.gl/xX64Cg)  
+[more about this](https://github.com/elewa-academy/reference-vs-value)
+
+the code:
+```js
+{
+  const expected = ;                           
+  
+  let val_1 = ;
+  let ref_1 = [];
+
+  let val_2 = val_1;            console.assert( === (val_1 === val_2), '1: val_1 === val_2');
+  let ref_2 = ref_1;            console.assert( === (ref_1 === ref_2), '2: ref_1 === ref_2');
+
+  val_2++;                      console.assert( === val_2, '3: val_2');
+                                console.assert( === (val_1 === val_2), '4: val_1 === val_2');
+  
+  ref_2.push(value_2);          console.assert( === ref_2[0], '5: ref_2[0]');
+                                console.assert( === ref_1[0], '6: ref_1[0]');
+
+  ref_1 = null;                 console.assert( === ref_2[0], '7: ref_2[0]');
+  ref_2 = null;                 console.assert( === (ref_1 === ref_2), '8: ref_1 === ref_2');
+
+  const actual = val_1;              
+ 
+  console.assert(actual === expected, 'actual !== expected');
+}
+```
+the values:
+```js
+val_1:''      -->   1:?, 2:?, 3:?, 4:?, 5:?, 6:?, 7:?, 8:?
+val_1:1       -->   1:?, 2:?, 3:?, 4:?, 5:?, 6:?, 7:?, 8:?
+```
+your notes:  
+
+---
 
 **no-copy arrays**  
 
@@ -256,7 +295,7 @@ the code:
   
   const assert_act = JSON.stringify(actual);
   const assert_exp = JSON.stringify(expected);
-  console.assert(assert_act === assert_exp, log);
+  console.assert(assert_act === assert_exp, 'actual !== expected');
 }
 ```
 the values:
@@ -301,7 +340,7 @@ the code:
   
   const actual = y;
   
-  console.assert(actual === expected, log);
+  console.assert(actual === expected, 'actual !== expected');
 }
 ```
 the values:
@@ -348,7 +387,7 @@ the code:
 
   const actual = result;
   
-  console.assert(actual === expected, log);
+  console.assert(actual === expected, 'actual !== expected');
 }
 ```
 the values:
@@ -395,7 +434,7 @@ the code:
 
   const actual = result;
   
-  console.assert(actual === expected, log);
+  console.assert(actual === expected, 'actual !== expected');
 }
 ```
 the values:
@@ -433,7 +472,7 @@ the code:
 
   const actual = result;
   
-  console.assert(actual === expected, log);
+  console.assert(actual === expected, 'actual !== expected');
 }
 ```
 the values:
@@ -470,7 +509,7 @@ the code:
 
   const actual = steps;
   
-  console.assert(actual === expected, log);
+  console.assert(actual === expected, 'actual !== expected');
 }
 ```
 the values:
@@ -509,7 +548,7 @@ the code:
 
   const assert_act = JSON.stringify(actual);
   const assert_exp = JSON.stringify(expected);
-  console.assert(assert_act === assert_exp, log);
+  console.assert(assert_act === assert_exp, 'actual !== expected');
 }
 ```
 the values:
@@ -548,7 +587,7 @@ the code:
  
   const assert_act = JSON.stringify(actual);
   const assert_exp = JSON.stringify(expected);
-  console.assert(assert_act === assert_exp, log);
+  console.assert(assert_act === assert_exp, 'actual !== expected');
 }
 ```
 the values:
