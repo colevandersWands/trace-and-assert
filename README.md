@@ -274,6 +274,7 @@ your notes:
 
 ## Conditionals
 
+conditional statements add a new level of complextiy to tracing your code, not ever line will be executed.  The challeges below will have an assertion for each line of executable code even that line is not reached.  Fill in those asserts with the values that _would_ be logged if that line of code were executed.
 
 **||, if/else, truthyness**  
 
@@ -282,20 +283,20 @@ your notes:
 the code:
 ```js
 {
-  const expected = ;             const log = [{expected}];
+  const expected = ;     
                        
   const a = ;                     
   const b = ;
   let x = null;
-  let y = null;                  log.push({a, b, x, y});
+  let y = null;               
   
-  let condition = a || b;        log.push({condition: Boolean(condition) });
-  if (condition) {                 
-    x = b;                       log.push({x});
-    y = a || b;                  log.push({y});
-  } else {
-    x = a;                       log.push({x});
-    y = a || b;                  log.push({y});
+  let condition = a || b;     console.assert( === condition, '1: condition');
+  if (condition) {            console.assert( === !!condition, '2: truthyness');
+    x = b;                    console.assert( === x, '3: x'); 
+    y = a || b;               console.assert( === y, '4: y'); 
+  } else {                    console.assert( === !!condition, '2: truthyness');
+    x = a;                    console.assert( === x, '3: x'); 
+    y = a || b;               console.assert( === y, '4: y'); 
   };
   
   const actual = y;
@@ -305,16 +306,16 @@ the code:
 ```
 the values:
 ```js
-a:true, b:false      --> ?
-a:false, b:true      --> ?
-a:0, b:1             --> ?
-a:1, b:0             --> ?
-a:null, b:false      --> ?
-a:false, b:null      --> ?
-a:'', b:' '          --> ?
-a:' ', b:''          --> ?
-a:2, b:3             --> ?
-a:3, b:2             --> ?
+a:true, b:false      -->   1:?, 2:?, 3:?, 4:?
+a:false, b:true      -->   1:?, 2:?, 3:?, 4:?
+a:0, b:1             -->   1:?, 2:?, 3:?, 4:?
+a:1, b:0             -->   1:?, 2:?, 3:?, 4:?
+a:null, b:false      -->   1:?, 2:?, 3:?, 4:?
+a:false, b:null      -->   1:?, 2:?, 3:?, 4:?
+a:'', b:' '          -->   1:?, 2:?, 3:?, 4:?
+a:' ', b:''          -->   1:?, 2:?, 3:?, 4:?
+a:2, b:3             -->   1:?, 2:?, 3:?, 4:?
+a:3, b:2             -->   1:?, 2:?, 3:?, 4:?
 ```
 your notes:  
 
