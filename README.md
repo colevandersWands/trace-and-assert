@@ -7,14 +7,29 @@ learning objectives
 you can complete these exercises directly from your fork by inspecting this page and copy-pasting the snippets into devtools console. fill in your solutions by editing this page, writing in the actual values for each challenge
 
 for each piece of code you will be given several inputs to study, ie.
-> a:3, b:4    -->   1:?, 2:?, 3:?
+> a:3, b:4    -->   1:?, 2:?, 3:?  
 each entry on the right hand side of the arrow represents an assertion point in the snippet.  the exercise here is to correctly fill in each of the blanks.
+
+
 
 ### The Challenges
 * [variables](#variables)  
+    * value swap
+    * block scope 'let'
+    * block scope 'var'
 * [reference types](#reference-types)  
+    * no-copy array
+    * yes-copy array
+    * dots vs brackets
 * [conditionals](#conditionals)  
+    * ||, if/else, truthyness
+    * if, else if, else
+    * nested conditionals
 * [iteration](#iteration)
+    * accumulating
+    * repeating until
+    * once per thing
+    * breaking down
 
 ---
 ---
@@ -29,27 +44,27 @@ each entry on the right hand side of the arrow represents an assertion point in 
 the code:
 ```js
 {
-  const expected = ;                const log = [{expected}];
+  const expected = ;                
 
   let a = ;                        
-  let b = ;                        
-  let temp = ;                      log.push({a,b,temp});
+  let b = ;                       
+  let temp = ;                   
    
-  temp = b;                         log.push({temp});
-  b = a;                            log.push({b});
-  a = temp;                         log.push({a});
+  temp = b;                       console.assert( === temp, '1: temp');
+  b = a;                          console.assert( === b, '2: b');
+  a = temp;                       console.assert( === a, '3: a');
 
-  const actual = temp;              log.push({actual});
+  const actual = temp;            
   
-  console.assert(actual === expected, log);
+  console.assert(actual === expected, 'actual !== expected');
 }
 ```
 the values:
 ```js
-a:1, b:2, temp:3            --> ?
-a:'a', b:'b', temp:'temp'   --> ?
-a:true, b:false, temp:null  --> ?
-a:'', b:0, temp:undefined   --> ?
+a:1, b:2, temp:3            -->   1:?, 2:?, 3:?
+a:'a', b:'b', temp:'temp'   -->   1:?, 2:?, 3:?
+a:true, b:false, temp:null  -->   1:?, 2:?, 3:?
+a:'', b:0, temp:undefined   -->   1:?, 2:?, 3:?
 ```
 your notes:
 
@@ -63,30 +78,30 @@ your notes:
 the code:
 ```js
 {
-  const expected = ;              const log = [{expected}];
+  const expected = ;              
 
-  let a = ;                        
+  let a = ;                       
   let b = ;  
-  let c = ;                       log.push({a,b,c});
+  let c = ;                       
 
   {
-    let a = b;                    log.push({a});
+    let a = b;                  console.assert( === a, '1: a');
     {
-       a = c;                     log.push({a});
+       a = c;                   console.assert( === a, '2: a');                     
     }
-    a = a;                        log.push({a});
+    a = a;                      console.assert( === a, '3: a');
   }
 
-  const actual = a;               log.push({actual});
+  const actual = a;               
   
-  console.assert(actual === expected, log);
+  console.assert(actual === expected, 'actual !== expected');
 }
 ```
 the values:
 ```js
-a:1, b:2, c:3         --> ?
-a:'', b:0, c:false    --> ?
-a:true, b:false, c:9  --> ?
+a:1, b:2, c:3         -->   1:?, 2:?, 3:?
+a:'', b:0, c:false    -->   1:?, 2:?, 3:?
+a:true, b:false, c:9  -->   1:?, 2:?, 3:?
 ```
 your notes:  
 
@@ -94,7 +109,7 @@ your notes:
 
 **Block Scope 'var'**  
 
-[on pytut](https://goo.gl/rJaPQo)  
+[on pytut](https://goo.gl/GRjDLQ)  
 [hoisting](https://github.com/elewa-academy/hoisting) 
 [hoisting & blocks](https://github.com/elewa-academy/hoisting-and-blocks)
 [let vs var](https://github.com/elewa-academy/block-scope-let-vs-var)  
@@ -104,29 +119,30 @@ the code:
 (refresh the page each time before running this exercise)  
 ```js
 {
-  const expected = ;              const log = [{expected}];
+  const expected = ;              
                        
   let b = ;  
-  let c = ;                       log.push({a,b,c});
+  let c = ;                       
 
   {
-    var a = b;                    log.push({a});
+    var a = b;                    console.assert( === a, '1: a');
     {
-       a = c;                     log.push({a});
-    }
-    a = a;                        log.push({a});
+       let a = c;                 console.assert( === a, '2: a');
+    }                        
+                                  console.assert( === a, '3: a');
   }
+                                  console.assert( === a, '4: a');
 
-  const actual = a;               log.push({actual});
+  const actual = a;              
   
-  console.assert(actual === expected, log);
+  console.assert(actual === expected, 'actual !== expected');
 }
 ```
 the values:
 ```js
-b:2, c:3         --> ?
-b:0, c:false     --> ?
-b:false, c:9     --> ?
+b:2, c:3         -->   1:?, 2:?, 3:?, 4:?
+b:0, c:false     -->   1:?, 2:?, 3:?, 4:?
+b:false, c:9     -->   1:?, 2:?, 3:?, 4:?
 ```
 your notes:  
 
@@ -144,31 +160,32 @@ your notes:
 the code:
 ```js
 {
-  const expected = [];            const log = [{expected}];
+  const expected = ;           
                        
-  const a = [];                     
-  const b = [];                      
+  const a = [];                  
+  const b = [];                  
   const x = ;
-  const y = ;                     log.push({a:a.slice(),b:b.slice(),x,y});
+  const y = ;                   
   
-  a.push(b);                      log.push(a.slice());
-  b.push(x);                      log.push(b.slice());
-  a.push(b);                      log.push(a.slice());
-  b.push(y);                      log.push(b.slice());
-  a.push(b);                      log.push(a.slice());
+  a.push(b);                     console.assert( === a[0], '1: a[0]');
+  b.push(x);                     console.assert( === b[0], '2: b[0]');
+  a.push(b);                     console.assert( === a[0], '3: a[0]');
+  b.push(y);                     console.assert( === b[1], '4: b[1]');
+  a.push(b);                     console.assert( === a[1], '5: a[1]');
 
-  const actual = a;               log.push({actual:actual.slice()});
+  const actual = a;              
   
   const assert_act = JSON.stringify(actual);
   const assert_exp = JSON.stringify(expected);
-  console.assert(assert_act === assert_exp, log);
+  console.assert(assert_act === assert_exp, 'actual !== expected');
 }
 ```
 the values:
 ```js
-x:2, y:3         --> ?
-x:'x', y:'y'     --> ?
-x:null, y:0      --> ?
+x:2, y:3         -->   1:?, 2:?, 3:?, 4:?, 5:?
+x:'x', y:'y'     -->   1:?, 2:?, 3:?, 4:?, 5:?
+x:null, y:0      -->   1:?, 2:?, 3:?, 4:?, 5:?
+x:{}, y:[]       -->   1:?, 2:?, 3:?, 4:?, 5:?
 ```
 your notes:  
 
@@ -183,31 +200,32 @@ your notes:
 the code:
 ```js
 {
-  const expected = [];            const log = [{expected}];
+  const expected = ;        
                        
   const a = [];                     
   const b = [];                      
   const x = ;
-  const y = ;                     log.push({a:a.slice(),b:b.slice(),x,y});
+  const y = ;               
   
-  a.push(b.slice());              log.push(a.slice());
-  b.push(x);                      log.push(b.slice());
-  a.push(b.slice());              log.push(a.slice());
-  b.push(y);                      log.push(b.slice());
-  a.push(b.slice());              log.push(a.slice());
+  a.push(b.slice());          console.assert( === a[0], '1: a[0]');
+  b.push(x);                  console.assert( === b[0], '2: b[0]');
+  a.push(b.slice());          console.assert( === a[0], '3: a[0]');
+  b.push(y);                  console.assert( === b[1], '4: b[1]');
+  a.push(b.slice());          console.assert( === a[1], '5: a[1]');
 
-  const actual = a;               log.push(actual.slice());
+  const actual = a;         
   
   const assert_act = JSON.stringify(actual);
   const assert_exp = JSON.stringify(expected);
-  console.assert(assert_act === assert_exp, log);
+  console.assert(assert_act === assert_exp, 'actual !== expected');
 }
 ```
 the values:
 ```js
-x:2, y:3         --> ?
-x:'x', y:'y'     --> ?
-x:null, y:0      --> ?
+x:2, y:3         -->   1:?, 2:?, 3:?, 4:?, 5:?
+x:'x', y:'y'     -->   1:?, 2:?, 3:?, 4:?, 5:?
+x:null, y:0      -->   1:?, 2:?, 3:?, 4:?, 5:?
+x:{}, y:[]       -->   1:?, 2:?, 3:?, 4:?, 5:?
 ```
 your notes:  
 
@@ -221,20 +239,20 @@ your notes:
 the code:
 ```js
 {
-  const expected = [];            const log = [{expected}];
+  const expected = [];          
 
   const arr = [];
   const obj = {a: 1, b: 2};
   const a = ;
-  const b = ;                     log.push({arr:arr.slice(), obj, a, b})
+  const b = ;                   
 
-  arr.push(obj.a);                log.push(arr.slice());
-  arr.push(obj.b);                log.push(arr.slice());
+  arr.push(obj.a);            console.assert( === arr[0], '1: arr[0]');
+  arr.push(obj.b);            console.assert( === arr[1], '2: arr[1]');
 
-  arr.push(obj[a]);               log.push(arr.slice());
-  arr.push(obj[b]);               log.push(arr.slice());
+  arr.push(obj[a]);           console.assert( === arr[2], '3: arr[2]');
+  arr.push(obj[b]);           console.assert( === arr[3], '4: arr[3]');
 
-  const actual = arr;             log.push(actual.slice());
+  const actual = arr;           
   
   const assert_act = JSON.stringify(actual);
   const assert_exp = JSON.stringify(expected);
@@ -243,10 +261,10 @@ the code:
 ```
 the values:
 ```js
-a:'a', b:'b'      --> ?
-a:'a', b:'a'      --> ?
-a:1, b:2          --> ?
-a:2, b:1          --> ?
+a:'a', b:'b'      -->   1:?, 2:?, 3:?, 4:?
+a:'b', b:'a'      -->   1:?, 2:?, 3:?, 4:?
+a:1, b:2          -->   1:?, 2:?, 3:?, 4:?
+a:2, b:1          -->   1:?, 2:?, 3:?, 4:?
 ```
 your notes:  
 
