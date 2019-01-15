@@ -509,6 +509,9 @@ your notes:
 
 ## Iteration
 
+tracing execution becomes even more complicated with iteration, the same lines of code are now being executed multiple times but with different values.  this means you can no longer simply put hard-coded assertions on each line.  
+instead you will have to build a log of the loop's behavior and compare it to a hard-coded prediction.  We've provided one completed example for each challenge so you can get the idea how this works.
+
 **accumulating**  
 
 [on pytut](https://goo.gl/YFn6Zd)
@@ -516,16 +519,23 @@ your notes:
 the code:
 ```js
 {
-  const expected = ;                const log = [{expected}];
+  const expected = ;            
              
   const things = ;
-  let result = null;                log.push({things,result});
+  let result = null;            
              
-  let i = 0;                        log.push({i});
-  while (i < things.length) {       log.push({while_condition: i < things.length});
-    result += things[i];            log.push({result});
-    ++i;                            log.push({i});
+  let i = 0;                     const iterlog = [];
+  while (i < things.length) {    const iteration = {};
+    result += things[i];         iteration.res = result;
+    ++i;                         iteration.i = i;
+                                 iterlog.push(iteration);
   };
+  
+  { // assert loop behavior
+     const hypotheses = [ ? ];         
+     const were_correct = JSON.stringify(hypotheses) === JSON.stringify(iterlog);
+     console.assert(were_correct, {hypotheses, iterlog})
+  }
 
   const actual = result;
   
@@ -534,11 +544,11 @@ the code:
 ```
 the values:
 ```js
-things:[-1, 0, 1]            --> ?
-things:[-3, -2, -1]          --> ?
-things:[true, false, 1, 0]   --> ?
-things:['words', 5, 1e3]     --> ?
-things:[]                    --> ?
+things:[-1, 0, 1]            --> [ {res:-1, i:1}, {res:-1, i:2}, {res:0,i:3} ]
+things:[-3, -2, -1]          --> [ ? ]
+things:[true, false, 1, 0]   --> [ ? ]
+things:['words', 5, 1e3]     --> [ ? ]
+things:[]                    --> [ ? ]
 ```
 your notes:  
 
@@ -551,18 +561,25 @@ your notes:
 the code:
 ```js
 {
-  const expected = ;             const log = [{expected}];
+  const expected = ;           
                      
   let a = ;
   let b = ;
   const c = ;
-  let steps = 0;                 log.push({a,b,c,steps});
-  
-  while (a !== b) {              log.push({while_condition: !!(a !== b)});
-    a -= c;                      log.push({a});
-    b += c;                      log.push({b});
-    steps++;                     log.push({steps});
+  let steps = 0;               
+                        const iterlog = [];
+  while (a !== b) {     const iteration = {};
+    a -= c;             iteration.a = a;       
+    b += c;             iteration.b = b;       
+    steps++;            iteration.steps = steps;
+                        iterlog.push(iteration);
   };
+  
+  { // assert loop behavior
+     const hypotheses = [ ? ];         
+     const were_correct = JSON.stringify(hypotheses) === JSON.stringify(iterlog);
+     console.assert(were_correct, {hypotheses, iterlog})
+  }
 
   const actual = steps;
   
@@ -571,12 +588,12 @@ the code:
 ```
 the values:
 ```js
-a:10, b:0, c:1      --> ?
-a:8, b:2, c:1       --> ?
-a:7, b:5, c:1       --> ?
-a:13, b:1, c:3      --> ?
-a:0, b:-28, c:7     --> ?
-a:15, b:-9, c:3     --> ?
+a:10, b:0, c:1      --> [ ? ]
+a:8, b:2, c:1       --> [ ? ]
+a:7, b:5, c:1       --> [ {a:6,b:6,steps:1} ]
+a:13, b:1, c:3      --> [ ? ]
+a:0, b:-28, c:7     --> [ ? ]
+a:15, b:-9, c:3     --> [ ? ]
 ```
 your notes:  
 
@@ -589,17 +606,24 @@ your notes:
 the code:
 ```js
 {
-  const expected = ;                   const log = [{expected}];
+  const expected = ;                  
                      
   const things = ;
-  const result = [];                   log.push({things,result:result.slice()});       
+  const result = [];                 
   
-  let i = 0;                           log.push({i});
-  while (i < things.length) {          log.push({while_condition: i < things.length});
-    const new_thing = !things[i];      log.push({new_thing});
-    result.push(new_thing);            log.push(result.slice());
-    i += 1;                            log.push({i});
+  let i = 0;                         const iterlog = []; 
+  while (i < things.length) {        const iteration = {};
+    const new_thing = !things[i];    iteration.new = new_thing;
+    result.push(new_thing);          iteration.res = result.slice(); 
+    i += 1;                          iteration.i = i;
+                                     iterlog.push(iteration);
   };
+  
+  { // assert loop behavior
+     const hypotheses = [ ? ];         
+     const were_correct = JSON.stringify(hypotheses) === JSON.stringify(iterlog);
+     console.assert(were_correct, {hypotheses, iterlog})
+  }
   
   const actual = result;
 
@@ -610,12 +634,12 @@ the code:
 ```
 the values:
 ```js
-things:[false,true]     --> ?
-things:[0,1]            --> ?
-things:['',' ']         --> ?
-things:[Infinity,NaN]   --> ?
-things:[[],{}]          --> ?
-things:[[1],{1}]        --> ?
+things:[false,true]     --> [ {new:true, res:[true], i:1}, {new:false, res:[true,false], i:2} ] 
+things:[0,1]            --> [ ? ]
+things:['',' ']         --> [ ? ]
+things:[Infinity,NaN]   --> [ ? ]
+things:[[],{}]          --> [ ? ]
+things:[[1],{1}]        --> [ ? ]
 ```
 your notes:  
 
@@ -628,17 +652,24 @@ your notes:
 the code:
 ```js
 {
-  const expected = ;                const log = [{expected}];
+  const expected = ;               
                      
   const word = ;
-  const letters = [];               log.push({word,letters});
+  const letters = [];              
 
-  let i = 0;                        log.push({i});
-  while (i < word.length) {         log.push({while_condition: i < word.length });
-    const letter = word[i];         log.push({letter});
-    letters.push(letter);           log.push(letters.slice());
-    i = i + 1;                      log.push({i});
+  let i = 0;                      const iterlog = []; 
+  while (i < word.length) {       const iteration = {};
+    const letter = word[i];       iteration.letter = letter;
+    letters.push(letter);         iteration.letters = letters.slice();
+    i = i + 1;                    iteration.i = i;
+                                  iterlog.push(iteration);
   };
+  
+  { // assert loop behavior
+     const hypotheses = [ ? ];         
+     const were_correct = JSON.stringify(hypotheses) === JSON.stringify(iterlog);
+     console.assert(were_correct, {hypotheses, iterlog})
+  }
 
   const actual = letters;
  
@@ -649,11 +680,11 @@ the code:
 ```
 the values:
 ```js
-word:"word"       --> ?
-word:""           --> ?
-word:"\n\t"       --> ?
-word:"\e\\"       --> ?
-word:"3.5"        --> ?
+word:"word"       --> [ ? ]
+word:""           --> []
+word:"\n\t"       --> [ ? ]
+word:"\e\\"       --> [ ? ]
+word:"3.5"        --> [ ? ]
 ```
 your notes:  
 
