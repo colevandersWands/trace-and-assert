@@ -156,7 +156,7 @@ your notes:
 
 **comparing reference types**  
 
-[on pytut](https://goo.gl/xX64Cg)  
+[on pytut](https://goo.gl/8wNY4c)  
 [more about this](https://github.com/elewa-academy/reference-vs-value)
 
 the code:
@@ -169,25 +169,39 @@ the code:
   const c = [1, 2];
   
   const b_0 = b.shift();          console.assert( === b[0], '1: b[0]');
-                                  console.assert( === (a[0] === b[0]), '3: a[0] === b[0]');
-  const a_eq_b = a === b;
-  const c_1 = c.pop();            console.assert( === c[0], '1: c[0]');
-  // compare c & b
-  // compare c & a
-  const d = [b_0, c_1];           console.assert( === d[0], '1: d[0]');
-                                  console.assert( === d[1], '1: d[1]');
-  a.push(b_0);                    console.assert( === a[0], '2: a[0]');
-                                  console.assert( === a[1], '1: a[1]');
-  const a_eq_d = a === d;         console.assert( === a_eq_d, '2: a_eq_d');
+                                  console.assert( === (a[0] === b[0]), '2: a[0] === b[0]');
+  const a_eq_b = a === b;         console.assert( === a_eq_b, '3: a_eq_b');
+  const a_same_vals_b = JSON.stringify(a) === JSON.stringify(b);
+                                  console.assert( === a_same_vals_b, '4: a_same_vals_b');
+  
+  const c_1 = c.pop();            console.assert( === c[0], '5: c[0]');
+                                  console.assert( === (a[0] === c[0]), '6: a[0] === c[0]');
+  const a_eq_c = a === c;         console.assert( === a_eq_c, '7: a_eq_c');
+  const a_same_vals_c = JSON.stringify(a) === JSON.stringify(c);
+                                  console.assert( === a_same_vals_c, '8: a_same_vals_c');
+  
+  const b_eq_c = b === c;         console.assert( === b_eq_c, '9: b_eq_c');
+                                  console.assert( === (b[0] === b[0]), '10: b[0] === c[0]');
+  const b_same_vals_c = JSON.stringify(b) === JSON.stringify(c);
+                                  console.assert( === b_same_vals_c, '11: b_same_vals_c');
 
-  const actual = JSON.stringify(b) === JSON.stringify(c);              
+  const d = [b_0, c_1];           console.assert( === d[0], '12: d[0]');
+                                  console.assert( === d[1], '13: d[1]');
+  a.push(b_0);                    console.assert( === a[0], '14: a[0]');
+                                  console.assert( === a[1], '15: a[1]');
+  const a_eq_d = a === d;         console.assert( === a_eq_d, '16: a_eq_d');
+  const a_same_vals_d = JSON.stringify(a) === JSON.stringify(d);
+                                  console.assert( === a_same_vals_d, '17: a_same_vals_d');
+  
+
+  const actual = a_same_vals_b && a_same_vals_c && a_same_vals_d && b_same_vals_c;              
  
   console.assert(actual === expected, 'actual !== expected');
 }
 ```
 the values:
 ```js
-(no inputs)   -> 
+(no inputs)  ->  1:?, 2:?, 3:?, 4:?, 5:?, 6:?, 7:?, 8:?, 9:?, 10:?, 11:?, 12:?, 13:?, 14:?, 15:?, 16:?, 17:? 
 ```
 your notes:  
 
